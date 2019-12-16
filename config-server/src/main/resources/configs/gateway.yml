@@ -1,0 +1,33 @@
+server:
+  port: 8090
+
+eureka:
+  instance:
+    hostname: localhost
+    port: 8081
+  client:
+    registerWithEureka: true
+    serviceUrl:
+      defaultZone: http://${eureka.instance.hostname}:${eureka.instance.port}/eureka/
+  server:
+    wait-time-in-ms-when-sync-empty: 3000
+
+zuul:
+  routes:
+    books_services:
+      path: '/books'
+      serviceId: book-service
+    user_services:
+      path: '/users'
+      serviceId: user-service
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 30000
+
+ribbon:
+  ReadTimeout: 6000
